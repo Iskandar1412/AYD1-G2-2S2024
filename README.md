@@ -2,13 +2,14 @@
 
 | Nombre                          |  Carnet  |                                  Usuario Git |
 | :------------------------------ | :-------: | -------------------------------------------: |
-| Erick Erasmo Jiménez Palacios | 201603171 | [---](https://github.com/) |
+| Erick Erasmo Jiménez Palacios | 201603171 | [erickjimenezsistemas](https://github.com/erickjimenezsistemas) |
 | Daniel Eduardo Izas Marroquin | 201801105 |   [Danielizas](https://github.com/Danielizas) |
 | Juan Francisco Urbina Silva | 201906051 | [Iskandar1412](https://github.com/Iskandar1412) |
-| Jose Pablo Cerón Urizar | 201908251 | [---](https://github.com/) |
-| Nathan Antonio Valdez Valdez | 202001568 | [---](https://github.com/) |
+| Jose Pablo Cerón Urizar | 201908251 | [JoseCeron1](https://github.com/JoseCeron1) |
+| Nathan Antonio Valdez Valdez | 202001568 | [nathanvdev](https://github.com/nathanvdev) |
 | Camilo Ernesto Sincal Sipac | 202000605 | [CamiloSincal](https://github.com/CamiloSincal) |
-| Steven Facundo Mejia Xolop | 202104160 | [---](https://github.com/) |
+| Steven Facundo Mejia Xolop | 202104160 | [Facundo-25](https://github.com/Facundo-25) |
+
 
 ### Prácticas
 
