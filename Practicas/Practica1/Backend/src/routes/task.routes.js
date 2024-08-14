@@ -48,14 +48,31 @@ router.post('/add-note', async(req, res) => {
     }
 });
 
-router.put('/update-note', async(req, res) => {
+router.put('/update-note', async (req, res) => {
     try {
         const { id, titulo, hora, fecha, categoria, recordatorios } = req.body;
-        console.log( id, titulo, hora, fecha, categoria, recordatorios );
-        res.json({ success: true, message: 'OK' });
+        if (!titulo || !hora || !fecha || !categoria || !recordatorios) {
+            return res.status(400).json({ success: false, message: 'Campos no llenados' });
+        }
+
+        const [existeReg] = await pool.query('CALL VerificarNotaID(?, ?)', [id, titulo]);
+        if (existeReg[0][0].Resultado) {
+            await pool.query('CALL ModificarNota(?, ?, ?, ?, ?, ?)', [id, titulo, hora, fecha, categoria, recordatorios]);
+        } else {
+            const [exists] = await pool.query('CALL ExisteNota(?)', [titulo]);
+            if (exists[0][0].Mensaje) {
+                return res.status(400).json({ success: false, message: 'Título de la nota ya existente' });
+            } else {
+                await pool.query('CALL ModificarNota(?, ?, ?, ?, ?, ?)', [id, titulo, hora, fecha, categoria, recordatorios]);
+            }
+        }
+
+        const [datos] = await pool.query('CALL ObtenerNotas()');
+        return res.json({ success: true, message: datos[0] });
     } catch (e) {
-        res.status(400).json({ success: false, message: 'Error en la solicitud' });
+        return res.status(400).json({ success: false, message: 'Error en la solicitud' });
     }
 });
+
 
 module.exports = router;
