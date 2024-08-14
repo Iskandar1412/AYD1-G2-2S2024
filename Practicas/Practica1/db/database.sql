@@ -1,13 +1,3 @@
--- para docker hub
--- docker build -t iskandar1412/proyecto1_201906051:<tag>(local) .
--- docker tag iskandar1412/proyecto1_201906051:<tag>(local) iskandar1412/proyecto1_201906051:<tag>(repositorio)
--- docker push iskandar1412/proyecto1_201906051:<tag>(repo)
-
--- docker pull redis:latest
--- docker pull redislabs/redisinsight:latest
--- apt install docker-compose
--- netstat -tuln | grep 6379
-
 CREATE DATABASE IF NOT EXISTS Practica1;
 USE Practica1;
 
