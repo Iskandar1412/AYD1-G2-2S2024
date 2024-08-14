@@ -5,3 +5,4 @@ CALL CambiarPinned(1, FALSE);
 CALL CambiarArchived(1, TRUE);
 CALL CambiarArchived(1, FALSE);
 CALL EliminarNota(1);
+CALL ObtenerNotas();
