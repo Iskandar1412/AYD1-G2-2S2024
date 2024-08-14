@@ -1,5 +1,5 @@
 // npm init -y
-// npm install express cors axios morgan
+// npm install express cors axios morgan moment
 // npm i --save nodemon
 const express = require('express');
 const cors = require('cors');
@@ -21,16 +21,3 @@ app.use(require('./routes/task.routes'));
 app.listen(PORT, () => {
     console.log(`Node APP listening on ${PORT}`);
 });
-
-
-// function foo() {
-//     /**
-//      * @type { {name: string, age: number} }
-//      */
-//     let foo = {
-//         name: "sadasd",
-//         age: 0
-//     }
-
-//     foo.
-// }

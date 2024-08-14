@@ -13,6 +13,21 @@ router.get('/', (req, res) => {
 });
 
 
-router.post('')
+router.post('/add-note', (req, res) => {
+    try {
+        const { titulo, hora, fecha, categoria, recordatorios } = req.body;
+
+        console.log(titulo);
+        console.log(hora);
+        console.log(fecha);
+        console.log(categoria);
+        console.log(recordatorios);
+
+        
+        res.json({ success: true, message: 'Aprobado' })
+    } catch (e) {
+        res.status(400).json({ success: false, message: 'Internal server error' })
+    }
+})
 
 module.exports = router;
