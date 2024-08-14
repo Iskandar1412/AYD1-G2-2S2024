@@ -6,12 +6,23 @@
 const express = require('express');
 const router = express.Router();
 const moment = require('moment');
+const pool = require('../database/db');
 
 
 router.get('/', (req, res) => {
     res.json('Node APP is running')
 });
 
+
+router.get('/obtain-notes', async(req, res) =>{
+    try {
+        const [validacion] = await pool.query('CALL ObtenerNotas()');
+        // console.log(validacion);
+        res.json({ success: true, message: validacion[0] });
+    } catch (e) {
+        res.status(400).json({ success: false, message: 'Internal Server Error' })
+    }
+});
 
 router.post('/add-note', (req, res) => {
     try {
@@ -28,6 +39,6 @@ router.post('/add-note', (req, res) => {
     } catch (e) {
         res.status(400).json({ success: false, message: 'Internal server error' })
     }
-})
+});
 
 module.exports = router;
