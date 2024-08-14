@@ -21,3 +21,16 @@ app.use(require('./routes/task.routes'));
 app.listen(PORT, () => {
     console.log(`Node APP listening on ${PORT}`);
 });
+
+
+// function foo() {
+//     /**
+//      * @type { {name: string, age: number} }
+//      */
+//     let foo = {
+//         name: "sadasd",
+//         age: 0
+//     }
+
+//     foo.
+// }
