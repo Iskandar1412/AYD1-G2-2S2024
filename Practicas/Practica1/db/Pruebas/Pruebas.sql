@@ -9,3 +9,8 @@ CALL CambiarArchived(1, FALSE);
 CALL EliminarNota(1);
 CALL ExisteID(1);
 CALL ObtenerNotas();
+
+-- Categorias
+CALL ObtenerCategorias();
+CALL ExisteCategoria('Cosa2');
+CALL AgregarCategoria('Cosa1');
