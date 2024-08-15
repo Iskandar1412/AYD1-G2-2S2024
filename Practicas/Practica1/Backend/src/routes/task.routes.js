@@ -96,4 +96,23 @@ router.put('/update-archived', async (req, res) => {
     }
 });
 
+router.delete('/delete-note', async (req, res) => {
+    try {
+        const { id } = req.query;
+        if (!id) {
+            return res.status(400).json({ success: false, message: 'ID no valido' });
+        }
+        const [existeID] = await pool.query('CALL ExisteID(?)', id);
+        if (existeID[0][0].Resultado) {
+            await pool.query('CALL EliminarNota(?)', id);
+        } else {
+            return res.status(400).json({ success: false, message: 'Registro no existente' });
+        }
+        const [datos] = await pool.query('CALL ObtenerNotas()');
+        return res.json({ success: true, message: datos[0] });
+    } catch (e) {
+        return res.status(400).json({ success: false, message: 'Error en la solicitud' });
+    }
+});
+
 module.exports = router;
