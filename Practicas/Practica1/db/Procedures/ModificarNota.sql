@@ -33,5 +33,5 @@ BEGIN
         
         SET idx = idx + 1;
     END WHILE;
-END$$
+END $$
 DELIMITER ;

@@ -29,18 +29,20 @@ router.post('/add-note', async (req, res) => {
         if (!titulo, !hora, !fecha, !categoria, !recordatorios) {
             return res.status(400).json({ success: false, message: 'Campos no llenados' });
         } else {
-            const [exists] = await pool.query('CALL ExisteNota(?)', titulo);
-            // console.log(exists[0][0].Mensaje);
-            if (exists[0][0].Mensaje == true) {
-                return res.status(400).json({ success: false, message: 'Titulo de la nota ya existente' });
+            const [existeCategoria] = await pool.query('CALL ExisteCategoria(?)', categoria);
+            // console.log(existeCategoria[0][0].Resultado);
+            if (!existeCategoria[0][0].Resultado) {
+                return res.status(400).json({ success: false, message: 'Categoria no existente' });
             } else {
-                await pool.query('CALL AgregarNota(?, ?, ?, ?, ?)', [titulo, hora, fecha, categoria, recordatorios]);
-                try {
-                    const [datos] = await pool.query('CALL ObtenerNotas()');
-                    return res.json({ success: true, message: datos[0] });
-                } catch (exception) {
-                    return res.status(400).json({ success:false, message: 'Internal Server Error' });
+                const [exists] = await pool.query('CALL ExisteNota(?)', titulo);
+                // console.log(exists[0][0].Mensaje);
+                if (exists[0][0].Mensaje == true) {
+                    return res.status(400).json({ success: false, message: 'Titulo de la nota ya existente' });
+                } else {
+                    await pool.query('CALL AgregarNota(?, ?, ?, ?, ?)', [titulo, hora, fecha, categoria, recordatorios]);
                 }
+                const [datos] = await pool.query('CALL ObtenerNotas()');
+                return res.json({ success: true, message: datos[0] });
             }
         }
     } catch (e) {
@@ -55,6 +57,12 @@ router.put('/update-note', async (req, res) => {
             return res.status(400).json({ success: false, message: 'Campos no llenados' });
         }
 
+        const [existeCategoria] = await pool.query('CALL ExisteCategoria(?)', categoria);
+        // console.log(existeCategoria[0][0].Resultado);
+        if (!existeCategoria[0][0].Resultado) {
+            return res.status(400).json({ success: false, message: 'Categoria no existente' });
+        }
+        
         const [existeReg] = await pool.query('CALL VerificarNotaID(?, ?)', [id, titulo]);
         if (existeReg[0][0].Resultado) {
             await pool.query('CALL ModificarNota(?, ?, ?, ?, ?, ?)', [id, titulo, hora, fecha, categoria, recordatorios]);
@@ -112,6 +120,36 @@ router.delete('/delete-note', async (req, res) => {
         return res.json({ success: true, message: datos[0] });
     } catch (e) {
         return res.status(400).json({ success: false, message: 'Error en la solicitud' });
+    }
+});
+
+// Etiquetas
+router.get('/obtain-etiq', async (req, res) => {
+    try {
+        const [validacion] = await pool.query('CALL ObtenerCategorias()');
+        return res.json({ success: true, message: validacion[0] });
+    } catch (e) {
+        return res.status(400).json({ success: false, message: 'Internal Server Error' })
+    }
+});
+
+router.post('/create-etiq', async (req, res) => {
+    try {
+        const { nombre } = req.body;
+        if (!nombre) {
+            return res.status(400).json({ success: false, message: 'Campo Vacio' });
+        }
+        
+        const [existeCategoria] = await pool.query('CALL ExisteCategoria(?)', nombre);
+        if (existeCategoria[0][0].Resultado) {
+            return res.status(400).json({ success: false, message: 'Categoria ya existente' });
+        }
+
+        await pool.query('CALL AgregarCategoria(?)', nombre);
+        const [respuesta] = await pool.query('CALL ObtenerCategorias()');
+        return res.json({ success: true, message: respuesta[0] })
+    } catch (e) {
+        return res.status(400).json({ success: false, message: 'Internal Server Error' });
     }
 });
 
