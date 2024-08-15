@@ -4,8 +4,6 @@ DELIMITER $$
 $$
 CREATE PROCEDURE Practica1.AgregarNota(
     IN p_Titulo VARCHAR(60),
-    IN p_Hora TIME,
-    IN p_Fecha DATE,
     IN p_Categoria VARCHAR(30),
     IN p_Recordatorios JSON
 )
@@ -16,7 +14,7 @@ BEGIN
     DECLARE recordatorioText VARCHAR(255);
     
     INSERT INTO Notas (Titulo, Hora, Fecha, Categoria)
-    VALUES (p_Titulo, p_Hora, p_Fecha, p_Categoria);
+    VALUES (p_Titulo, DATE_FORMAT(NOW(), '%H:%i:%S'), DATE_FORMAT(NOW(), '%Y-%m-%d'), p_Categoria);
     
     SET newNotaID = LAST_INSERT_ID();
     SET totalRecordatorios = JSON_LENGTH(p_Recordatorios);

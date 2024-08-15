@@ -25,8 +25,8 @@ router.get('/obtain-notes', async (req, res) =>{
 
 router.post('/add-note', async (req, res) => {
     try {
-        const { titulo, hora, fecha, categoria, recordatorios } = req.body;
-        if (!titulo, !hora, !fecha, !categoria, !recordatorios) {
+        const { titulo, categoria, recordatorios } = req.body;
+        if (!titulo, !categoria, !recordatorios) {
             return res.status(400).json({ success: false, message: 'Campos no llenados' });
         } else {
             const [existeCategoria] = await pool.query('CALL ExisteCategoria(?)', categoria);
@@ -39,7 +39,7 @@ router.post('/add-note', async (req, res) => {
                 if (exists[0][0].Mensaje == true) {
                     return res.status(400).json({ success: false, message: 'Titulo de la nota ya existente' });
                 } else {
-                    await pool.query('CALL AgregarNota(?, ?, ?, ?, ?)', [titulo, hora, fecha, categoria, recordatorios]);
+                    await pool.query('CALL AgregarNota(?, ?, ?)', [titulo, categoria, recordatorios]);
                 }
                 const [datos] = await pool.query('CALL ObtenerNotas()');
                 return res.json({ success: true, message: datos[0] });
@@ -52,8 +52,8 @@ router.post('/add-note', async (req, res) => {
 
 router.put('/update-note', async (req, res) => {
     try {
-        const { id, titulo, hora, fecha, categoria, recordatorios } = req.body;
-        if (!titulo || !hora || !fecha || !categoria || !recordatorios) {
+        const { id, titulo, categoria, recordatorios } = req.body;
+        if (!titulo, !categoria, !recordatorios) {
             return res.status(400).json({ success: false, message: 'Campos no llenados' });
         }
 
@@ -65,13 +65,13 @@ router.put('/update-note', async (req, res) => {
         
         const [existeReg] = await pool.query('CALL VerificarNotaID(?, ?)', [id, titulo]);
         if (existeReg[0][0].Resultado) {
-            await pool.query('CALL ModificarNota(?, ?, ?, ?, ?, ?)', [id, titulo, hora, fecha, categoria, recordatorios]);
+            await pool.query('CALL ModificarNota(?, ?, ?, ?)', [id, titulo, categoria, recordatorios]);
         } else {
             const [exists] = await pool.query('CALL ExisteNota(?)', [titulo]);
             if (exists[0][0].Mensaje) {
                 return res.status(400).json({ success: false, message: 'Título de la nota ya existente' });
             } else {
-                await pool.query('CALL ModificarNota(?, ?, ?, ?, ?, ?)', [id, titulo, hora, fecha, categoria, recordatorios]);
+                await pool.query('CALL ModificarNota(?, ?, ?, ?)', [id, titulo, categoria, recordatorios]);
             }
         }
 
