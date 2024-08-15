@@ -76,15 +76,6 @@ function Pantalla2({ command, carpetasOb, carpetas }) {
 					  />
 					</div>
 					<div>
-					  <label htmlFor="etiqueta">Nueva Etiqueta:</label>
-					  <input
-						id="etiqueta"
-						type="text"
-						value={etiqueta}
-						onChange={(e) => setEtiqueta(e.target.value)}
-					  />
-					</div>
-					<div>
 					  <label htmlFor="etiqueta_guardada">Seleccionar etiquetas guardadas:</label>
 					  <input
 						id="etiqueta_guardada"
@@ -93,6 +84,18 @@ function Pantalla2({ command, carpetasOb, carpetas }) {
 						onChange={(e) => setEtiqueta_guardada(e.target.value)}
 					  />
 					</div>
+					
+					
+					<div>
+					  <label htmlFor="etiqueta">Nueva Etiqueta:</label>
+					  <input
+						id="etiqueta"
+						type="text"
+						value={etiqueta}
+						onChange={(e) => setEtiqueta(e.target.value)}
+					  />
+					</div>
+					
 					{error && <p style={{ color: 'red' }}>{error}</p>}
 					<button type="submit" class="buttonSendNote">Agregar Nota</button>
 				  </form>
