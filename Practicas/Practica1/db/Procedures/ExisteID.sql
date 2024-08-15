@@ -1,0 +1,21 @@
+DROP PROCEDURE IF EXISTS Practica1.ExisteID;
+
+DELIMITER $$
+$$
+CREATE PROCEDURE Practica1.ExisteID(
+	IN p_NotaID INT
+)
+BEGIN
+	DECLARE existeID INT;
+
+	SELECT  COUNT(*) INTO existeID
+	FROM Notas
+	WHERE NotaID = p_NotaID;
+
+	IF existeID > 0 THEN
+		SELECT TRUE AS Resultado;
+	ELSE
+		SELECT FALSE AS Resultado;
+	END IF;
+END$$
+DELIMITER ;
