@@ -17,5 +17,5 @@ BEGIN
     ELSE
         SELECT FALSE AS Mensaje;
     END IF;
-END$$
+END $$
 DELIMITER ;

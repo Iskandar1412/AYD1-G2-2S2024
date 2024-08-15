@@ -18,5 +18,5 @@ BEGIN
     ELSE
         SELECT FALSE AS Resultado;
     END IF;
-END$$
+END $$
 DELIMITER ;
