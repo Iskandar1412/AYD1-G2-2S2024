@@ -5,8 +5,6 @@ $$
 CREATE PROCEDURE Practica1.ModificarNota(
     IN p_NotaID INT,
     IN p_Titulo VARCHAR(60),
-    IN p_Hora TIME,
-    IN p_Fecha DATE,
     IN p_Categoria VARCHAR(30),
     IN p_Recordatorios JSON
 )
@@ -16,7 +14,7 @@ BEGIN
     DECLARE recordatorioText VARCHAR(255);
     
     UPDATE Notas
-    SET Titulo = p_Titulo, Hora = p_Hora, Fecha = p_Fecha, Categoria = p_Categoria
+    SET Titulo = p_Titulo, Hora = DATE_FORMAT(NOW(), '%H:%i:%S'), Fecha = DATE_FORMAT(NOW(), '%Y-%m-%d'), Categoria = p_Categoria
     WHERE NotaID = p_NotaID;
     
     DELETE FROM Recordatorios WHERE NotaID = p_NotaID;
