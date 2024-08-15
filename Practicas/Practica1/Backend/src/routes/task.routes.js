@@ -13,38 +13,38 @@ router.get('/', (req, res) => {
     res.json('Node APP is running')
 });
 
-router.get('/obtain-notes', async(req, res) =>{
+router.get('/obtain-notes', async (req, res) =>{
     try {
         const [validacion] = await pool.query('CALL ObtenerNotas()');
         // console.log(validacion);
-        res.json({ success: true, message: validacion[0] });
+        return res.json({ success: true, message: validacion[0] });
     } catch (e) {
-        res.status(400).json({ success: false, message: 'Internal Server Error' })
+        return res.status(400).json({ success: false, message: 'Internal Server Error' })
     }
 });
 
-router.post('/add-note', async(req, res) => {
+router.post('/add-note', async (req, res) => {
     try {
         const { titulo, hora, fecha, categoria, recordatorios } = req.body;
         if (!titulo, !hora, !fecha, !categoria, !recordatorios) {
-            res.status(400).json({ success: false, message: 'Campos no llenados' });
+            return res.status(400).json({ success: false, message: 'Campos no llenados' });
         } else {
             const [exists] = await pool.query('CALL ExisteNota(?)', titulo);
             // console.log(exists[0][0].Mensaje);
             if (exists[0][0].Mensaje == true) {
-                res.status(400).json({ success: false, message: 'Titulo de la nota ya existente' });
+                return res.status(400).json({ success: false, message: 'Titulo de la nota ya existente' });
             } else {
                 await pool.query('CALL AgregarNota(?, ?, ?, ?, ?)', [titulo, hora, fecha, categoria, recordatorios]);
                 try {
                     const [datos] = await pool.query('CALL ObtenerNotas()');
-                    res.json({ success: true, message: datos[0] });
+                    return res.json({ success: true, message: datos[0] });
                 } catch (exception) {
-                    res.status(400).json({ success:false, message: 'Internal Server Error' });
+                    return res.status(400).json({ success:false, message: 'Internal Server Error' });
                 }
             }
         }
     } catch (e) {
-        res.status(400).json({ success: false, message: 'Error en la Solicitud' })
+        return res.status(400).json({ success: false, message: 'Error en la Solicitud' })
     }
 });
 
@@ -74,5 +74,45 @@ router.put('/update-note', async (req, res) => {
     }
 });
 
+router.put('/update-pin', async (req, res) => {
+    try {
+        const { id, pin } = req.body;
+        await pool.query('CALL CambiarPinned(?, ?)', [id, pin]);
+        const [datos] = await pool.query('CALL ObtenerNotas()');
+        return res.json({ success: true, message: datos[0] });
+    } catch (e) {
+        return res.status(400).json({ success: false, message: 'Error en la solicitud' });
+    }
+});
+
+router.put('/update-archived', async (req, res) => {
+    try {
+        const { id, archive } = req.body;
+        await pool.query('CALL CambiarArchived(?, ?)', [id, archive]);
+        const [datos] = await pool.query('CALL ObtenerNotas()');
+        return res.json({ success: true, message: datos[0] });
+    } catch (e) {
+        return res.status(400).json({ success: false, message: 'Error en la solicitud' });
+    }
+});
+
+router.delete('/delete-note', async (req, res) => {
+    try {
+        const { id } = req.query;
+        if (!id) {
+            return res.status(400).json({ success: false, message: 'ID no valido' });
+        }
+        const [existeID] = await pool.query('CALL ExisteID(?)', id);
+        if (existeID[0][0].Resultado) {
+            await pool.query('CALL EliminarNota(?)', id);
+        } else {
+            return res.status(400).json({ success: false, message: 'Registro no existente' });
+        }
+        const [datos] = await pool.query('CALL ObtenerNotas()');
+        return res.json({ success: true, message: datos[0] });
+    } catch (e) {
+        return res.status(400).json({ success: false, message: 'Error en la solicitud' });
+    }
+});
 
 module.exports = router;
