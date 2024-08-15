@@ -1,5 +1,9 @@
+// MOSTRAR NOTAS
+// 181.174.106.101/obtain-notes
+// para frontend sería localhost:3000
+
 import React, { useEffect, useState } from 'react';
-import { pathbackend } from '../path';
+//import { pathbackend } from '../path';
 
 function Pantalla1({ info, carpetas, cambiarDot }) {
     
@@ -8,6 +12,10 @@ function Pantalla1({ info, carpetas, cambiarDot }) {
         <>
             <div className="vistas">
                 
+				
+				
+				
+				
             </div>
         </>
     );

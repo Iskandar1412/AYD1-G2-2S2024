@@ -780,3 +780,18 @@ input[type="radio"]:checked + .label-type::before {
   word-wrap: break-word; /* Esto fuerza al texto a envolverse cuando sea necesario */
 }
 
+.pantalla{
+  color: white;
+  padding:20px;
+}
+
+.buttonSendNote {
+  background-color: white;
+  color: black;
+  border: 2px solid #555555;
+}
+
+.buttonSendNote :hover {
+  background-color: #555555;
+  color: white;
+}
