@@ -84,7 +84,18 @@ function Pantalla1() {
 
     const HandleDelete = async(e) => {
         const IDNota = e.target.getAttribute('data-value');
-        console.log(IDNota);
+        try {
+            const response = await fetch(`${pathbackend}/delete-note?id=${IDNota}`, {
+                method: 'DELETE',
+            })
+
+            const data = await response.json();
+            if (data.success) {
+                fetchNotas();
+            }
+        } catch (e) {
+            console.error('Error:', e);
+        }
     }
 
     const HandleArchived = async(e) => {
@@ -449,7 +460,7 @@ function Pantalla1() {
                 )}
                 {filtro === 'Etiquetas' && (
                     <div className='vistapantalla2'>
-                        <label className='arch-pul'/><label className='pin-da'>Archived</label>
+                        <label className='arch-pul'/><label className='pin-da'>Organizar por Etiquetas</label>
                         <div className='archived-up'>
 
                         </div>

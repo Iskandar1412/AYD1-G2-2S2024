@@ -931,7 +931,7 @@ input[type="radio"]:checked + .label-type::before {
 }
 
 .arch-pul:before { /* archivar \f08b  eliminar   modificar \f044*/
-  content: '\f187';
+  content: '\f15d';
 }
 
 .pinned-up {
