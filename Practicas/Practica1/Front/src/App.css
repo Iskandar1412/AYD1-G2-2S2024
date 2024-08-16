@@ -170,7 +170,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start; /* Alinear los labels al inicio del contenedor */
+  align-items: flex-start;
   width: 100%;
   height: 92vh;
 }
@@ -178,7 +178,6 @@ body {
 .notecraft {
   width: 88vw;
   height: 10vh;
-  /* background: #20c997; */
   margin: 1vh 1vw;
   padding-top: 1vh;
   border-radius: 20px;
@@ -687,7 +686,7 @@ input[type="radio"]:checked + .label-type::before {
   margin-top: 2vh;
   margin-left: 4vw;
   transform: translate(-50%, -50%);
-  z-index: 9999; /* Ajusta este valor según sea necesario */
+  z-index: 9999; 
   width: 86vw;
   height: 87vh;
   background: var(--bs-body-bg);
@@ -787,7 +786,7 @@ input[type="radio"]:checked + .label-type::before {
   width: 100%;
   height: 90%;
   text-align: justify;
-  overflow: auto; /* Esto añade barras de desplazamiento si el contenido es demasiado grande */
+  overflow: auto; 
   border-bottom: var(--bs-686E71) 1px transparent;
 
   scrollbar-width: thin; 
@@ -805,14 +804,14 @@ input[type="radio"]:checked + .label-type::before {
 
 .contenido-modal #text {
   text-align: justify;
-  word-wrap: break-word; /* Esto fuerza al texto a envolverse cuando sea necesario */
+  word-wrap: break-word;
 }
 
 .contenido-modal h2 {
   text-align: justify;
   font-size: 4vh;
   color: #fff;
-  word-wrap: break-word; /* Esto fuerza al texto a envolverse cuando sea necesario */
+  word-wrap: break-word;
 }
 
 .pantalla{
@@ -958,16 +957,16 @@ input[type="radio"]:checked + .label-type::before {
   margin-left: 1vw;
   background-color: var(--bs-gray-300);
   border-radius: 10px;
-  overflow: auto; /* Permite el desplazamiento si el contenido es demasiado grande */
+  overflow: auto; 
   scrollbar-width: thin;
   scrollbar-color: #888 #ccc;
   display: flex;
-  flex-wrap: wrap; /* Permite que los elementos se envuelvan en nuevas filas */
+  flex-wrap: wrap; 
 }
 
 .archived-up .item {
-  flex: 1 1 200px; /* Ajusta el tamaño de los elementos */
-  margin: 10px; /* Espacio entre los elementos */
+  flex: 1 1 200px; 
+  margin: 10px; 
   box-sizing: border-box;
 }
 
@@ -1037,8 +1036,8 @@ input[type="radio"]:checked + .label-type::before {
   color: var(--bs-gray-200);
 }
 
-.ulik-p:before { /* archivar \f08b  eliminar f1f8  modificar \f044  desarchivar \f08e   */
-  content: '\f05c'; /* unlike f069 */
+.ulik-p:before {
+  content: '\f05c';
 }
 
 .final-pin {
