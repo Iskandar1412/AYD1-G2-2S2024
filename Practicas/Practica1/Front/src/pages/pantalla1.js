@@ -9,6 +9,7 @@ import axios from 'axios'
 function Pantalla1() {
     const [filtro, setFiltro] = useState('Sin Filtro');
     const [notas, setNotas] = useState([]);
+    const [notas2, setNotas2] = useState([]);
     const [notaTemp, setNotaTemp] = useState([]);
 
     const [OpcionNuevaEtiqueta2, setOpcionNuevaEtiqueta2] = useState(0);
@@ -24,11 +25,13 @@ function Pantalla1() {
         const ufetchNotas = async () => {
             try {
                 setNotas([]);
+                setNotas2([]);
                 const response = await axios.get(`${pathbackend}/obtain-notes`);
                 // console.log(response.status)
                 if (response.status === 200) {
                     // console.log(response.data.message);
                     setNotas(response.data.message);
+                    setNotas2(response.data.message);
                 }
             } catch (e) {
                 console.error('Error:', e);
@@ -41,11 +44,13 @@ function Pantalla1() {
     const fetchNotas = async () => {
         try {
             setNotas([]);
+            setNotas2([]);
             const response = await axios.get(`${pathbackend}/obtain-notes`);
             // console.log(response.status)
             if (response.status === 200) {
                 // console.log(response.data.message);
                 setNotas(response.data.message);
+                setNotas2(response.data.message);
             }
         } catch (e) {
             console.error('Error:', e);
@@ -338,7 +343,7 @@ function Pantalla1() {
                                                         onClick={HandlePinnedValue}
                                                     >
                                                         <label
-                                                            className='lik-p'
+                                                            className='ulik-p'
                                                             data-value={nota.NotaID}
                                                             data-caption={nota.Pinned}
                                                         />
@@ -390,7 +395,10 @@ function Pantalla1() {
                             </div>
                             <label className='recent-pul'/><label className='pin-da'>Recents</label>
                             <div className='pinned-up'>
-                                {Array.isArray(notas) && notas.map((nota) => (
+                                {Array.isArray(notas) && 
+                                    notas
+                                        .sort((a, b) => a.Categoria.localeCompare(b.Categoria))
+                                        .map((nota) => (
                                     nota.Pinned === 0 && nota.Archived === 0 ? (
                                         <>
                                             <div className='othersd'>
@@ -462,7 +470,114 @@ function Pantalla1() {
                     <div className='vistapantalla2'>
                         <label className='arch-pul'/><label className='pin-da'>Organizar por Etiquetas</label>
                         <div className='archived-up'>
+                            { Array.isArray(notas2) && notas.map((nota) => (
+                                nota.Pinned === 1 && nota.Archived === 0 ? (
+                                    <>
+                                        <div className='othersb'>
+                                            <div className='encabezado-pin'>
+                                                <div className='utitle'>
+                                                    <label className='titulo-pin'>{nota.Titulo}</label>
+                                                </div>
+                                                <button 
+                                                    className='ulike-pin'
+                                                    data-value={nota.NotaID}
+                                                    data-caption={nota.Pinned}
+                                                    onClick={HandlePinnedValue}
+                                                >
+                                                    <label
+                                                        className='ulik-p'
+                                                        data-value={nota.NotaID}
+                                                        data-caption={nota.Pinned}
+                                                    />
+                                                </button>
+                                            </div>
+                                            <div className='recordatorios-pin'>{ Array.isArray(nota.Recordatorios) && nota.Recordatorios.map((recordatorio) => (
+                                                <>
+                                                    - { recordatorio.Recordatorio } <br/>
+                                                </>
+                                            ))}</div>
+                                            <div className='final-pin'>
+                                                <div className='etiqueta-pin'><label className='etiq-p' /><label className='et-p'>{nota.Categoria}</label></div>
+                                                <div className='pin-botones'>
+                                                    <button
+                                                        data-value={nota.NotaID}
+                                                        onClick={HandleDelete}
+                                                    >
+                                                        <label 
+                                                            className='delete-pin'
+                                                            data-value={nota.NotaID} 
+                                                        />
+                                                    </button>
+                                                    <button
+                                                        data-value={nota.NotaID}
+                                                        data-caption={nota.Archived}
+                                                        onClick={HandleArchived}
+                                                    >
+                                                        <label
+                                                            className='archive-pin'
+                                                            data-value={nota.NotaID}
+                                                            data-caption={nota.Archived}
+                                                        />
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </>
 
+                                ) : nota.Pinned === 0 && nota.Archived === 0 ? (
+                                    <>
+                                        <div className='othersb'>
+                                            <div className='encabezado-pin'>
+                                                <div className='utitle'>
+                                                    <label className='titulo-pin'>{nota.Titulo}</label>
+                                                </div>
+                                                <button 
+                                                    className='like-pin'
+                                                    data-value={nota.NotaID}
+                                                    data-caption={nota.Pinned}
+                                                    onClick={HandlePinnedValue}
+                                                >
+                                                    <label
+                                                        className='lik-p'
+                                                        data-value={nota.NotaID}
+                                                        data-caption={nota.Pinned}
+                                                    />
+                                                </button>
+                                            </div>
+                                            <div className='recordatorios-pin'>{ Array.isArray(nota.Recordatorios) && nota.Recordatorios.map((recordatorio) => (
+                                                <>
+                                                    - { recordatorio.Recordatorio } <br/>
+                                                </>
+                                            ))}</div>
+                                            <div className='final-pin'>
+                                                <div className='etiqueta-pin'><label className='etiq-p' /><label className='et-p'>{nota.Categoria}</label></div>
+                                                <div className='pin-botones'>
+                                                    <button
+                                                        data-value={nota.NotaID}
+                                                        onClick={HandleDelete}
+                                                    >
+                                                        <label 
+                                                            className='delete-pin'
+                                                            data-value={nota.NotaID} 
+                                                        />
+                                                    </button>
+                                                    <button
+                                                        data-value={nota.NotaID}
+                                                        data-caption={nota.Archived}
+                                                        onClick={HandleArchived}
+                                                    >
+                                                        <label
+                                                            className='archive-pin'
+                                                            data-value={nota.NotaID}
+                                                            data-caption={nota.Archived}
+                                                        />
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </>
+                                ) : <> </>
+                            ))}
                         </div>
                     </div>
                 )}

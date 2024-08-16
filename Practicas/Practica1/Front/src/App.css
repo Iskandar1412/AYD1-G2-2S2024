@@ -958,7 +958,17 @@ input[type="radio"]:checked + .label-type::before {
   margin-left: 1vw;
   background-color: var(--bs-gray-300);
   border-radius: 10px;
-  
+  overflow: auto; /* Permite el desplazamiento si el contenido es demasiado grande */
+  scrollbar-width: thin;
+  scrollbar-color: #888 #ccc;
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos se envuelvan en nuevas filas */
+}
+
+.archived-up .item {
+  flex: 1 1 200px; /* Ajusta el tamaño de los elementos */
+  margin: 10px; /* Espacio entre los elementos */
+  box-sizing: border-box;
 }
 
 .pin-da {
@@ -970,7 +980,15 @@ input[type="radio"]:checked + .label-type::before {
 }
 
 .othersd {
-  width: 30vw;
+  width: 35vw;
+  border-radius: 10px;
+  height: 30vh;
+  margin: 1vh 1vh;
+  background-color: #212529;
+}
+
+.othersb {
+  width: 40vw;
   border-radius: 10px;
   height: 30vh;
   margin: 1vh 1vh;
@@ -1007,6 +1025,20 @@ input[type="radio"]:checked + .label-type::before {
 
 .lik-p:before { /* archivar \f08b  eliminar f1f8  modificar \f044  desarchivar \f08e   */
   content: '\f08d'; /* unlike f069 */
+}
+
+.ulik-p {
+  font-size: 3vh;
+}
+
+.ulik-p:before {
+  font-family: fontawesome;
+  font-weight: normal;
+  color: var(--bs-gray-200);
+}
+
+.ulik-p:before { /* archivar \f08b  eliminar f1f8  modificar \f044  desarchivar \f08e   */
+  content: '\f05c'; /* unlike f069 */
 }
 
 .final-pin {
@@ -1090,6 +1122,19 @@ input[type="radio"]:checked + .label-type::before {
   content: '\f08b';
 }
 
+.uarchive-pin {
+  font-size: 3vh;
+}
+
+.uarchive-pin:before {
+  font-family: fontawesome;
+  font-weight: normal;
+  color: var(--bs-teal);
+}
+
+.uarchive-pin:before { 
+  content: '\f045';
+}
 
 .like-pin {
   border-radius: 8px;
