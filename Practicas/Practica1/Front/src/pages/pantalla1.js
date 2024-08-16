@@ -27,9 +27,7 @@ function Pantalla1() {
                 setNotas([]);
                 setNotas2([]);
                 const response = await axios.get(`${pathbackend}/obtain-notes`);
-                // console.log(response.status)
                 if (response.status === 200) {
-                    // console.log(response.data.message);
                     setNotas(response.data.message);
                     setNotas2(response.data.message);
                 }
@@ -46,9 +44,7 @@ function Pantalla1() {
             setNotas([]);
             setNotas2([]);
             const response = await axios.get(`${pathbackend}/obtain-notes`);
-            // console.log(response.status)
             if (response.status === 200) {
-                // console.log(response.data.message);
                 setNotas(response.data.message);
                 setNotas2(response.data.message);
             }
@@ -60,7 +56,6 @@ function Pantalla1() {
     const HandlePinnedValue = async(e) => {
         const IDNota = e.target.getAttribute('data-value');
         const VF = e.target.getAttribute('data-caption');
-        // console.log(IDNota, VF);
 
         const env = {
             "id": IDNota,
@@ -106,7 +101,6 @@ function Pantalla1() {
     const HandleArchived = async(e) => {
         const IDNota = e.target.getAttribute('data-value');
         const VA = e.target.getAttribute('data-caption');
-        // console.log(IDNota, VA);
 
         if (VA === '0') {
             const env = {
@@ -132,7 +126,6 @@ function Pantalla1() {
 
     const MostrarModifyNote = async (e) => {
         const valor = e.target.getAttribute('data-value');
-        // console.log(JSON.parse(valor));
         setNotaTemp(JSON.parse(valor));
     }
 
@@ -252,7 +245,6 @@ function Pantalla1() {
         }
     }, [notaTemp]);
 
-    
     const handleModifyData = async (e) => {
         e.preventDefault();
         if (!etiqueta2) {
@@ -269,16 +261,12 @@ function Pantalla1() {
             recordatorio: recordatorio
         }))
 
-        // console.log(notaTemp);
-
         const newa  =  {
             "id": notaTemp.NotaID,
             "titulo": titulo2,
             "categoria": etiqueta2,
             "recordatorios": JSON.stringify(recordatoriosToJSON)
         }
-
-        // console.log(JSON.stringify(newa));
 
         try {
             const response = await fetch(`${pathbackend}/update-note`, {
@@ -288,8 +276,6 @@ function Pantalla1() {
             })
 
             const data = await response.json();
-            // console.log(data.success)
-            // console.log(data);
             if (data.success) {
                 fetchNotas();
                 HandleCerrar();
