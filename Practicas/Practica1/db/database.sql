@@ -5,7 +5,7 @@ USE Practica1;
 -- DROP TABLE IF EXISTS Recordatorios;
 
 CREATE TABLE IF NOT EXISTS Categoria (
-    CategoriaID INT NOT NULL AUTO_INCREMENT,
+    CategoriaID INT PRIMARY KEY AUTO_INCREMENT,
     Categoria VARCHAR(30) NOT NULL UNIQUE
 );
 
