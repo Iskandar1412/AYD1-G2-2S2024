@@ -30,6 +30,8 @@ function Pantalla1() {
                 if (response.status === 200) {
                     setNotas(response.data.message);
                     setNotas2(response.data.message);
+                } else {
+                    console.log('Error en la solicitud')
                 }
             } catch (e) {
                 console.error('Error:', e);
@@ -47,6 +49,8 @@ function Pantalla1() {
             if (response.status === 200) {
                 setNotas(response.data.message);
                 setNotas2(response.data.message);
+            } else {
+                console.log('Error en la solicitud')
             }
         } catch (e) {
             console.error('Error:', e);
@@ -76,6 +80,8 @@ function Pantalla1() {
             const data = await response.json();
             if (data.success) {
                 fetchNotas();
+            } else {
+                console.log('Error en la solicitud')
             }
         } catch (e) {
             console.error('Error:', e);
@@ -92,6 +98,8 @@ function Pantalla1() {
             const data = await response.json();
             if (data.success) {
                 fetchNotas();
+            } else {
+                console.log('Error en la solicitud')
             }
         } catch (e) {
             console.error('Error:', e);
@@ -117,6 +125,8 @@ function Pantalla1() {
                 const data = await response.json();
                 if (data.success) {
                     fetchNotas();
+                } else {
+                    console.log('Error en la solicitud')
                 }
             } catch (e) {
                 console.error('Error:', e);
@@ -157,7 +167,7 @@ function Pantalla1() {
                     setError2('Error al obtener categorias')
                 }
             } catch (e) {
-                setError2('Error al obtener categorias')
+                setError2('Error al obtener categorias:', e)
             }
         }
 
@@ -196,9 +206,10 @@ function Pantalla1() {
                 setListaEtiquetas2(categoriae);
             } else {
                 setError2('Error al obtener categorias')
+                return;
             }
         } catch (e) {
-            setError2('Error al obtener categorias')
+            setError2('Error al obtener categorias:', e)
         }
     }
 
@@ -228,7 +239,7 @@ function Pantalla1() {
             }
 
         } catch (e) {
-            setErrorNuevaEtiqueta2('Error en la conexión con el servidor')
+            setErrorNuevaEtiqueta2('Error en la conexión con el servidor:', e)
         }
     }
 
@@ -248,7 +259,7 @@ function Pantalla1() {
     const handleModifyData = async (e) => {
         e.preventDefault();
         if (!etiqueta2) {
-            alert('Seleccione etiqueta')
+            alert('Etiqueta no seleccionada')
             return;
         }
 
@@ -284,7 +295,7 @@ function Pantalla1() {
                 return;
             }
         } catch (e) {
-            console.log('Error en la solicitud')
+            console.log('Error en la solicitud:', e)
         }
     }
 
@@ -452,7 +463,7 @@ function Pantalla1() {
                         </div>
                     </> 
                 )}
-                {filtro === 'Etiquetas' && (
+                { filtro === 'Etiquetas' && (
                     <div className='vistapantalla2'>
                         <label className='arch-pul'/><label className='pin-da'>Organizar por Etiquetas</label>
                         <div className='archived-up'>
