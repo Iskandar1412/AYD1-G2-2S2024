@@ -55,7 +55,31 @@ function Pantalla1() {
     const HandlePinnedValue = async(e) => {
         const IDNota = e.target.getAttribute('data-value');
         const VF = e.target.getAttribute('data-caption');
-        console.log(IDNota, VF);
+        // console.log(IDNota, VF);
+
+        const env = {
+            "id": IDNota,
+            "pin": false
+        }
+        if (VF === '0') {
+            env.pin = true
+        } else {
+            env.pin = false
+        }
+        try {
+            const response = await fetch(`${pathbackend}/update-pin`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(env)
+            })
+
+            const data = await response.json();
+            if (data.success) {
+                fetchNotas();
+            }
+        } catch (e) {
+            console.error('Error:', e);
+        }
     }
 
     const HandleDelete = async(e) => {
@@ -65,7 +89,29 @@ function Pantalla1() {
 
     const HandleArchived = async(e) => {
         const IDNota = e.target.getAttribute('data-value');
-        console.log(IDNota);
+        const VA = e.target.getAttribute('data-caption');
+        // console.log(IDNota, VA);
+
+        if (VA === '0') {
+            const env = {
+                "id": IDNota,
+                "archive": true
+            }
+            try {
+                const response = await fetch(`${pathbackend}/update-archived`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(env)
+                })
+
+                const data = await response.json();
+                if (data.success) {
+                    fetchNotas();
+                }
+            } catch (e) {
+                console.error('Error:', e);
+            }
+        }
     }
 
     const MostrarModifyNote = async (e) => {
@@ -275,7 +321,7 @@ function Pantalla1() {
                                                         <label className='titulo-pin'>{nota.Titulo}</label>
                                                     </div>
                                                     <button 
-                                                        className='like-pin'
+                                                        className='ulike-pin'
                                                         data-value={nota.NotaID}
                                                         data-caption={nota.Pinned}
                                                         onClick={HandlePinnedValue}
@@ -315,11 +361,13 @@ function Pantalla1() {
                                                         </button>
                                                         <button
                                                             data-value={nota.NotaID}
+                                                            data-caption={nota.Archived}
                                                             onClick={HandleArchived}
                                                         >
                                                             <label
                                                                 className='archive-pin'
                                                                 data-value={nota.NotaID}
+                                                                data-caption={nota.Archived}
                                                             />
                                                         </button>
                                                     </div>
@@ -380,11 +428,13 @@ function Pantalla1() {
                                                         </button>
                                                         <button
                                                             data-value={nota.NotaID}
+                                                            data-caption={nota.Archived}
                                                             onClick={HandleArchived}
                                                         >
                                                             <label
                                                                 className='archive-pin'
                                                                 data-value={nota.NotaID}
+                                                                data-caption={nota.Archived}
                                                             />
                                                         </button>
                                                     </div>
