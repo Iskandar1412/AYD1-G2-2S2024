@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import '../page2.css';
 import axios from 'axios'; // Asegúrate de instalar axios con `npm install axios`
 
 function Pantalla2({ command, carpetasOb, carpetas }) {
@@ -54,9 +55,9 @@ function Pantalla2({ command, carpetasOb, carpetas }) {
 		const valorSeleccionado = e.target.value;
 		if (valorSeleccionado === 'Crear Nueva Etiqueta') {
 		  setOpcionNuevaEtiqueta(1);
-		  setEtiqueta_guardada(valorSeleccionado);
+		  setEtiqueta(valorSeleccionado);
 		} else {
-		  setEtiqueta_guardada(valorSeleccionado);
+		  setEtiqueta(valorSeleccionado);
 		  setOpcionNuevaEtiqueta(0);
 		}
 	  };
@@ -95,115 +96,125 @@ function Pantalla2({ command, carpetasOb, carpetas }) {
 
 
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+    
+        if (!titulo.trim() || !descripcion.trim() || !etiqueta.trim()) {
+            setError('Todos los campos deben estar llenos.');
+            return;
+        }
+            
+        const lineas = descripcion.split('\n').map(line => line.trim()).filter(line => line);
+        const recordatorios = lineas.map(linea => ({ recordatorio: linea }));
+        
+        const recordatoriosToJSON = JSON.stringify(recordatorios);
+        
+        const nota = {
+            titulo,
+            categoria: etiqueta,
+            recordatorios: recordatoriosToJSON
+        };
+    
+        console.log(nota);
+    
+        try {
+            const response = await fetch('http://localhost:9200/add-note', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(nota)
+            });
+    
+            const data = await response.json();
+    
+            if (data.success) {
+                setTitulo('');
+                setDescripcion('');
+                setEtiqueta('');
+                setError('');
+            } else {
+                setError(data.message);
+            }
+        } catch (error) {
+            setError('Error al enviar la información: ' + error.message);
+        }
+    };
+    
 
-	  const handleSubmit = async (e) => {
-		e.preventDefault();
 
-		// Validar que el título no esté vacío
-		if (!titulo.trim()) {
-		  setError('El título no puede estar vacío.');
-		  return;
-		}
-
-		setError('');
-
-		// Preparar los datos de la nota
-		const nota = {
-		  titulo,
-		  descripcion,
-		  etiqueta,
-		  etiqueta_guardada,
-		};
-
-		try {
-			const response = await axios.post('http://localhost:9200/add-note', nota);
-			if (response.data.message==1){
-				alert('La nota se ha guardado exitosamente');
-			}else{
-				alert(response.data.message);
-			}
-
-			//setResponseMessage('Información enviada correctamente: ' + response.data.message);
-			setError('');
-
-			// Limpiar los campos después de enviar
-			setTitulo('');
-			setDescripcion('');
-			setEtiqueta('');
-			setEtiqueta_guardada('');
-		} catch (error) {
-			setError('Error al enviar la información: ' + error.message);
-		}
-	  };
 
     return (
         <>
             <div className="vistas">
-				
-				<div class="pantalla">
-				  <h1>Agregar Nota</h1>
-				  <form onSubmit={handleSubmit}>
-					<div>
-					  <label htmlFor="titulo">Título:</label>
-					  <input
-						id="titulo"
-						type="text"
-						value={titulo}
-						onChange={(e) => setTitulo(e.target.value)}
-					  />
-					</div>
-					<div>
-					  <label htmlFor="descripcion">Descripción:</label>
-					  <textarea
-						id="descripcion"
-						cols="100" 
-						rows="5"
-						value={descripcion}
-						onChange={(e) => setDescripcion(e.target.value)}
-					  />
-					</div>
+				<div className="pantalla2-container"> 
+                <h1 className="form-title">Agregar Nota</h1>
+                <form className="note-form" onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+                    <div className="form-group">
+                        <label htmlFor="titulo" className="form-label">Título:</label>
+                        <input
+                            id="titulo"
+                            type="text"
+                            value={titulo}
+                            onChange={(e) => setTitulo(e.target.value)}
+                            className="form-input"
+                            aria-describedby="titulo-help"
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="descripcion" className="form-label">Descripción:</label>
+                        <textarea
+                            id="descripcion"
+                            cols="100"
+                            rows="5"
+                            value={descripcion}
+                            onChange={(e) => setDescripcion(e.target.value)}
+                            className="form-textarea"
+                            aria-describedby="descripcion-help"
+                        />
+                    </div>
 
-					{OpcionNuevaEtiqueta === 1 && (
-						<div className="agregar-nueva-etiqueta">
-							<label htmlFor="etiqueta">Nueva Etiqueta:</label>
-							<input
-								id="nueva_etiqueta"
-								type="text"
-								value={etiqueta}
-								onChange={(e) => setEtiqueta(e.target.value)}
-							/>
-							<button type="button" onClick={CrearNuevaEtiqueta}>Listo</button>
-							{ErrorNuevaEtiqueta && <p style={{ color: 'red' }}>{ErrorNuevaEtiqueta}</p>}
-						</div>
-					)}
-					
-					<div>
-						<label htmlFor="etiqueta_guardada">Seleccionar etiquetas guardadas:</label>
-						<select
-						id="etiqueta_guardada"
-						value={etiqueta_guardada}
-						onChange={handleEtiquetaChange} // Utiliza la función handleEtiquetaChange
-						>
-						<option value="">Selecciona una etiqueta</option>
-						{ListaEtiquetas.map((etiqueta, index) => (
-							<option key={index} value={etiqueta}>
-							{etiqueta}
-							</option>
-						))}
-						</select>
-					</div>
+                    {OpcionNuevaEtiqueta && (
+                        <div className="new-tag-container">
+                            <label htmlFor="nueva_etiqueta" className="form-label">Nueva Etiqueta:</label>
+                            <input
+                                id="nueva_etiqueta"
+                                type="text"
+                                onChange={(e) => setEtiqueta(e.target.value)}
+                                className="form-input"
+                                aria-describedby="nueva_etiqueta-help"
+                            />
+                            <button type="button" onClick={CrearNuevaEtiqueta} className="button-new-tag">Listo</button>
+                            {ErrorNuevaEtiqueta && <p className="error-message">{ErrorNuevaEtiqueta}</p>}
+                        </div>
+                    )}
 
-					
-					
-					
-					
-					{error && <p style={{ color: 'red' }}>{error}</p>}
-					<button type="submit" class="buttonSendNote">Agregar Nota</button>
+                    <div className="form-group">
+                        <label htmlFor="etiqueta_guardada" className="form-label">Seleccionar etiquetas guardadas:</label>
+                        <select
+                            id="etiqueta_guardada"
+                            value={etiqueta}
+                            onChange={handleEtiquetaChange}
+                            className="form-select"
+                            aria-describedby="etiqueta_guardada-help"
+                        >
+                            <option value="">Selecciona una etiqueta</option>
+                            {ListaEtiquetas.map((etiqueta, index) => (
+                                <option key={index} value={etiqueta}>
+                                    {etiqueta}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
 
-				  </form>
+                    
+                    <button type="submit" className="button-submit" onClick={handleSubmit}>Agregar Nota</button>
+                    {error && <p className="error-message">{error}</p>}
+                </form>
+
 				</div>
-
             </div>
+
         </>
     );
 
