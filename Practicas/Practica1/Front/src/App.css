@@ -1128,7 +1128,7 @@ input[type="radio"]:checked + .label-type::before {
 .uarchive-pin:before {
   font-family: fontawesome;
   font-weight: normal;
-  color: var(--bs-teal);
+  color: var(--bs-purple);
 }
 
 .uarchive-pin:before { 

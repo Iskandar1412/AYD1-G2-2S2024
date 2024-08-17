@@ -1,34 +1,34 @@
 import { useState, useEffect } from "react";
 import '../page2.css';
 import axios from 'axios'; // Asegúrate de instalar axios con `npm install axios`
+import { pathbackend } from '../path';
 
-function Pantalla2({ command, carpetasOb, carpetas }) {
+function Pantalla2({ cambios, setCambios, setChange }) {
     
-	  const [titulo, setTitulo] = useState('');
-	  const [descripcion, setDescripcion] = useState('');
-	  const [etiqueta, setEtiqueta] = useState('');
-	  const [ListaEtiquetas, setListaEtiquetas] = useState([]);
-	  const [OpcionNuevaEtiqueta, setOpcionNuevaEtiqueta] = useState(0);
-	  const [etiqueta_guardada, setEtiqueta_guardada] = useState('');
-	  const [error, setError] = useState('');
-	  const [ErrorNuevaEtiqueta, setErrorNuevaEtiqueta] = useState('');
+    const [titulo, setTitulo] = useState('');
+    const [descripcion, setDescripcion] = useState('');
+    const [etiqueta, setEtiqueta] = useState('');
+    const [ListaEtiquetas, setListaEtiquetas] = useState([]);
+    const [OpcionNuevaEtiqueta, setOpcionNuevaEtiqueta] = useState(0);
+    const [error, setError] = useState('');
+    const [ErrorNuevaEtiqueta, setErrorNuevaEtiqueta] = useState('');
 
 
 	useEffect(() => {
 		const fetchCategorias = async () => {
-		  try {
-			setListaEtiquetas([]);
-			const response = await axios.get('http://localhost:9200/obtain-etiq');
-			if (response.data.success) {
-			  const categoriasExtraidas = response.data.message.map(item => item.Categoria);
-			  categoriasExtraidas.push('Crear Nueva Etiqueta');
-			  setListaEtiquetas(categoriasExtraidas);
-			} else {
-			  setError('Error en la respuesta del servidor');
-			}
-		  } catch (error) {
-			setError('Error al obtener las categorías: ' + error.message);
-		  }
+            try {
+                setListaEtiquetas([]);
+                const response = await axios.get(`${pathbackend}/obtain-etiq`);
+                if (response.data.success) {
+                    const categoriasExtraidas = response.data.message.map(item => item.Categoria);
+                    categoriasExtraidas.push('Crear Nueva Etiqueta');
+                    setListaEtiquetas(categoriasExtraidas);
+                } else {
+                setError('Error en la respuesta del servidor');
+                }
+            } catch (error) {
+                setError('Error al obtener las categorías: ' + error.message);
+            }
 		};
 		fetchCategorias();
 	}, []);
@@ -36,31 +36,31 @@ function Pantalla2({ command, carpetasOb, carpetas }) {
 
 	const FuncionfetchCategorias = async () => {
 		try {
-		  setListaEtiquetas([]);
-		  const response = await axios.get('http://localhost:9200/obtain-etiq');
-		  if (response.data.success) {
-			const categoriasExtraidas = response.data.message.map(item => item.Categoria);
-			categoriasExtraidas.push('Crear Nueva Etiqueta');
-			setListaEtiquetas(categoriasExtraidas);
-		  } else {
-			setError('Error en la respuesta del servidor');
-		  }
+            setListaEtiquetas([]);
+            const response = await axios.get(`${pathbackend}/obtain-etiq`);
+		    if (response.data.success) {
+                const categoriasExtraidas = response.data.message.map(item => item.Categoria);
+                categoriasExtraidas.push('Crear Nueva Etiqueta');
+                setListaEtiquetas(categoriasExtraidas);
+		    } else {
+    			setError('Error en la respuesta del servidor');
+		    }
 		} catch (error) {
-		  setError('Error al obtener las categorías: ' + error.message);
+		    setError('Error al obtener las categorías: ' + error.message);
 		}
-	  };
+    };
 
 
 	const handleEtiquetaChange = (e) => {
 		const valorSeleccionado = e.target.value;
 		if (valorSeleccionado === 'Crear Nueva Etiqueta') {
-		  setOpcionNuevaEtiqueta(1);
-		  setEtiqueta(valorSeleccionado);
+            setOpcionNuevaEtiqueta(1);
+            setEtiqueta(valorSeleccionado);
 		} else {
-		  setEtiqueta(valorSeleccionado);
-		  setOpcionNuevaEtiqueta(0);
+            setEtiqueta(valorSeleccionado);
+            setOpcionNuevaEtiqueta(0);
 		}
-	  };
+    };
 
 
 	const CrearNuevaEtiqueta = async () => {
@@ -71,7 +71,7 @@ function Pantalla2({ command, carpetasOb, carpetas }) {
         }
 
         try {
-            const response = await fetch('http://localhost:9200/create-etiq', {
+            const response = await fetch(`${pathbackend}/create-etiq`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -86,6 +86,7 @@ function Pantalla2({ command, carpetasOb, carpetas }) {
                 setEtiqueta(''); 
                 setErrorNuevaEtiqueta(''); 
 				FuncionfetchCategorias();
+                setCambios();
             } else {
                 setErrorNuevaEtiqueta(data.message || 'Error desconocido');
             }
@@ -115,10 +116,10 @@ function Pantalla2({ command, carpetasOb, carpetas }) {
             recordatorios: recordatoriosToJSON
         };
     
-        console.log(nota);
+        // console.log(nota);
     
         try {
-            const response = await fetch('http://localhost:9200/add-note', {
+            const response = await fetch(`${pathbackend}/add-note`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -136,13 +137,18 @@ function Pantalla2({ command, carpetasOb, carpetas }) {
             } else {
                 setError(data.message);
             }
+            setCambios();
         } catch (error) {
             setError('Error al enviar la información: ' + error.message);
         }
     };
-    
 
-
+    useEffect(() => {
+        if (cambios) {
+            FuncionfetchCategorias();
+            setChange()
+        }
+    }, [cambios]);
 
     return (
         <>
