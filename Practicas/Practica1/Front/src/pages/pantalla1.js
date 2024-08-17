@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { pathbackend } from '../path';
 import axios from 'axios'
 
-function Pantalla1() {
+function Pantalla1({ cambios, setCambios, setChange, change2 }) {
     const [filtro, setFiltro] = useState('Sin Filtro');
     const [notas, setNotas] = useState([]);
     const [notas2, setNotas2] = useState([]);
@@ -128,6 +128,7 @@ function Pantalla1() {
                 } else {
                     console.log('Error en la solicitud')
                 }
+                setCambios();
             } catch (e) {
                 console.error('Error:', e);
             }
@@ -237,7 +238,7 @@ function Pantalla1() {
             } else {
                 setErrorNuevaEtiqueta2(data.message || 'Error desconocido')
             }
-
+            change2();
         } catch (e) {
             setErrorNuevaEtiqueta2('Error en la conexión con el servidor:', e)
         }
@@ -298,6 +299,14 @@ function Pantalla1() {
             console.log('Error en la solicitud:', e)
         }
     }
+
+    useEffect(() => {
+        if (cambios) {
+            fetchNotas();
+            handleUpdateCategory();
+            setChange();
+        }
+    }, [cambios]);
 
     const botonEstilo = {
         backgroundColor: filtro === 'Sin Filtro' ? '#FF5733' : '#4CAF50',

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { pathbackend } from '../path';
 import axios from 'axios'
 
-function Pantalla3({ dots, cambiarDot }) {
+function Pantalla3({ cambios, setCambios, setChange }) {
 
     const [notas3, setNotas3] = useState([]);
 
@@ -23,6 +23,13 @@ function Pantalla3({ dots, cambiarDot }) {
 
         ufetchNotas();
     }, []);
+
+    useEffect(() => {
+        if (cambios) {
+            fetchNotas3()
+            setChange()
+        }
+    }, [cambios]);
 
     const fetchNotas3 = async () => {
         try {
@@ -78,6 +85,7 @@ function Pantalla3({ dots, cambiarDot }) {
                 } else {
                     console.log('Error en la solicitud')
                 }
+                setCambios();
             } catch (e) {
                 console.error('Error:', e);
             }
@@ -121,7 +129,7 @@ function Pantalla3({ dots, cambiarDot }) {
                                                         onClick={HandleArchived3}
                                                     >
                                                         <label
-                                                            className='archive-pin'
+                                                            className='uarchive-pin'
                                                             data-value={nota.NotaID}
                                                             data-caption={nota.Archived}
                                                         />
