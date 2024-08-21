@@ -146,7 +146,6 @@ function Pantalla3({ cambios, setCambios, setChange }) {
             </div>
         </>
     );
-
 }
 
 export default Pantalla3;
