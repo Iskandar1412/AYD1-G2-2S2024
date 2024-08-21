@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import '../page2.css';
-import axios from 'axios'; // Asegúrate de instalar axios con `npm install axios`
+import axios from 'axios';
 import { pathbackend } from '../path';
 
 function Pantalla2({ cambios, setCambios, setChange }) {
@@ -12,7 +12,6 @@ function Pantalla2({ cambios, setCambios, setChange }) {
     const [OpcionNuevaEtiqueta, setOpcionNuevaEtiqueta] = useState(0);
     const [error, setError] = useState('');
     const [ErrorNuevaEtiqueta, setErrorNuevaEtiqueta] = useState('');
-
 
 	useEffect(() => {
 		const fetchCategorias = async () => {
@@ -95,8 +94,6 @@ function Pantalla2({ cambios, setCambios, setChange }) {
         }
     };
 
-
-
     const handleSubmit = async (e) => {
         e.preventDefault();
     
@@ -115,8 +112,6 @@ function Pantalla2({ cambios, setCambios, setChange }) {
             categoria: etiqueta,
             recordatorios: recordatoriosToJSON
         };
-    
-        // console.log(nota);
     
         try {
             const response = await fetch(`${pathbackend}/add-note`, {
@@ -181,18 +176,20 @@ function Pantalla2({ cambios, setCambios, setChange }) {
                     </div>
 
                     {OpcionNuevaEtiqueta && (
-                        <div className="new-tag-container">
+                        <>
                             <label htmlFor="nueva_etiqueta" className="form-label">Nueva Etiqueta:</label>
-                            <input
-                                id="nueva_etiqueta"
-                                type="text"
-                                onChange={(e) => setEtiqueta(e.target.value)}
-                                className="form-input"
-                                aria-describedby="nueva_etiqueta-help"
-                            />
-                            <button type="button" onClick={CrearNuevaEtiqueta} className="button-new-tag">Listo</button>
-                            {ErrorNuevaEtiqueta && <p className="error-message">{ErrorNuevaEtiqueta}</p>}
-                        </div>
+                            <div className="new-tag-container">
+                                <input
+                                    id="nueva_etiqueta"
+                                    type="text"
+                                    onChange={(e) => setEtiqueta(e.target.value)}
+                                    className="form-input"
+                                    aria-describedby="nueva_etiqueta-help"
+                                />
+                                <button type="button" onClick={CrearNuevaEtiqueta} className="button-new-tag">Listo</button>
+                                {ErrorNuevaEtiqueta && <p className="error-message">{ErrorNuevaEtiqueta}</p>}
+                            </div>
+                        </>
                     )}
 
                     <div className="form-group">
@@ -217,13 +214,10 @@ function Pantalla2({ cambios, setCambios, setChange }) {
                     <button type="submit" className="button-submit" onClick={handleSubmit}>Agregar Nota</button>
                     {error && <p className="error-message">{error}</p>}
                 </form>
-
 				</div>
             </div>
-
         </>
     );
-
 }
 
 export default Pantalla2;

@@ -39,10 +39,18 @@
     color: #ffffff;
 }
 
-.form-input,
 .form-textarea,
 .form-select {
     width: 100%;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-input {
+    width: 80vw;
+    margin-right: 1vw;
     padding: 10px;
     border: 1px solid #cccccc;
     border-radius: 4px;
@@ -55,6 +63,8 @@
 
 .new-tag-container {
     margin-bottom: 15px;
+    display: flex;
+    align-content: center;
 }
 
 .button-new-tag {
@@ -64,8 +74,10 @@
     padding: 10px 15px;
     border-radius: 4px;
     cursor: pointer;
-    margin-top: 10px;
+    margin: auto;
 }
+
+
 
 .button-new-tag:hover {
     background-color: #45a049;
