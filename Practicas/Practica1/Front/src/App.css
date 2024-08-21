@@ -1013,7 +1013,7 @@ input[type="radio"]:checked + .label-type::before {
 }
 
 .lik-p {
-  font-size: 3vh;
+  font-size: 2.5vh;
 }
 
 .lik-p:before {
@@ -1027,7 +1027,7 @@ input[type="radio"]:checked + .label-type::before {
 }
 
 .ulik-p {
-  font-size: 3vh;
+  font-size: 2.5vh;
 }
 
 .ulik-p:before {
@@ -1080,7 +1080,7 @@ input[type="radio"]:checked + .label-type::before {
 }
 
 .delete-pin {
-  font-size: 3vh;
+  font-size: 2.5vh;
 }
 
 .delete-pin:before {
@@ -1094,7 +1094,7 @@ input[type="radio"]:checked + .label-type::before {
 }
 
 .modify-pin {
-  font-size: 3vh;
+  font-size: 2.5vh;
 }
 
 .modify-pin:before {
@@ -1108,7 +1108,7 @@ input[type="radio"]:checked + .label-type::before {
 }
 
 .archive-pin {
-  font-size: 3vh;
+  font-size: 2.5vh;
 }
 
 .archive-pin:before {
@@ -1122,7 +1122,7 @@ input[type="radio"]:checked + .label-type::before {
 }
 
 .uarchive-pin {
-  font-size: 3vh;
+  font-size: 2.5vh;
 }
 
 .uarchive-pin:before {

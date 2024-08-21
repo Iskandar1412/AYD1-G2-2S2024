@@ -1,7 +1,3 @@
-// MOSTRAR NOTAS
-// 181.174.106.101/obtain-notes
-// para frontend sería localhost:3000
-
 import React, { useEffect, useState } from 'react';
 import { pathbackend } from '../path';
 import axios from 'axios'
@@ -629,7 +625,6 @@ function Pantalla1({ cambios, setCambios, setChange, change2 }) {
 
                                                     {OpcionNuevaEtiqueta2 === 1 && (
                                                         <div className='anuevaetiqueta'>
-                                                            {/* <label className='etiquetas-modal'>Nueva Etiqueta</label> */}
                                                             <input 
                                                                 className='input-etiqueta-nueva'
                                                                 type='text'
