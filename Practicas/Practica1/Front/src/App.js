@@ -6,38 +6,29 @@ import Pantalla2 from './pages/pantalla2';
 import Pantalla3 from './pages/pantalla3';
 
 function App() {
-
   const [selectedTab, setSelectedTab] = useState('contente1');
-  const [command, setCommand] = useState([]);
   
   const handleTabChange = (event) => {
     setSelectedTab(event.target.id.replace('tab', 'content')); 
   };
 
-  const obtainInfo = (ex) => {
-    // console.log(ex)
-    
-    setCommand(ex)
-    // console.log(command)
-    //console.log("comando", command)
+  const [cambiosParte1, setCambiosParte1] = useState(false);
+  const changeParte1 = () => {
+    if (cambiosParte1) setCambiosParte1(!cambiosParte1)
+      else setCambiosParte1(true)
   }
 
-  const [carpetas, setCarpetas] = useState([]);
-  const obtainCarpetas = (carp) => {
-    
-    setCarpetas(carp)
-  } 
-
-  const [dots, setDots] = useState([]);
-  const obtainDots = (dot) => {
-    // var gd = [
-    //   { dot: "grahicacas.dot", extension: "dot" },
-    //   { dot: "grahicaca2.txt", extension: "txt" },
-    // ]
-    setDots(dot)
+  const [cambiosParte2, setCambiosParte2] = useState(false);
+  const changeParte2 = () => {
+    if (cambiosParte2) setCambiosParte2(!cambiosParte2)
+      else setCambiosParte2(true)
   }
 
-  
+  const [cambiosParte3, setCambiosParte3] = useState(false);
+  const changeParte3 = () => {
+    if (cambiosParte3) setCambiosParte3(!cambiosParte3)
+      else setCambiosParte3(true)
+  }
 
   return (
     <div className='usuario-data3'>
@@ -59,15 +50,15 @@ function App() {
           <div className='content-type'>
             <section id="contente1" className={`tabs-contentype ${selectedTab === 'contente1' && 'active'}`}>
               <div className='notecraft'><label className='note-prim'>Note</label><label className='note-sec'>Craft</label></div>
-              <Pantalla1 info={obtainInfo} carpetas={obtainCarpetas} cambiarDot={obtainDots} />
+              <Pantalla1 cambios={cambiosParte1} setCambios={changeParte3} setChange={changeParte1} change2={changeParte2} />
             </section>
             <section id="contente2" className={`tabs-contentype ${selectedTab === 'contente2' && 'active'}`}>
               <div className='notecraft'><label className='note-prim'>Note</label><label className='note-sec'>Craft</label></div>
-              <Pantalla2 command={command} carpetasOb={carpetas} carpetas={obtainCarpetas} />
+              <Pantalla2 cambios={cambiosParte2} setCambios={changeParte1} setChange={changeParte2} />
             </section>
             <section id="contente3" className={`tabs-contentype ${selectedTab === 'contente3' && 'active'}`}>
               <div className='notecraft'><label className='note-prim'>Note</label><label className='note-sec'>Craft</label></div>
-              <Pantalla3 dots={dots} cambiarDot={obtainDots} />
+              <Pantalla3 cambios={cambiosParte3} setCambios={changeParte1} setChange={changeParte3} />
             </section>
           </div>
         </main>

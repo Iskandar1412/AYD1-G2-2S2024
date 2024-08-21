@@ -33,7 +33,7 @@ router.post('/add-note', async (req, res) => {
             // console.log(existeCategoria[0][0].Resultado);
             if (!existeCategoria[0][0].Resultado) {
                 return res.status(400).json({ success: false, message: 'Categoria no existente' });
-            } else {
+            } else {    
                 const [exists] = await pool.query('CALL ExisteNota(?)', titulo);
                 // console.log(exists[0][0].Mensaje);
                 if (exists[0][0].Mensaje == true) {
